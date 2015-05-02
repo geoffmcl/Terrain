@@ -5,7 +5,7 @@
 //////////////////////////////////////////////////////////////////////////////////////////
 #include <stdio.h>
 #include <time.h>
-#include <GL\glut.h>
+#include <GL/glut.h>
 
 GLfloat xRotated = 0.0f;
 GLfloat yRotated = 0.0f;

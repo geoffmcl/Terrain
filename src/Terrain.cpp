@@ -24,6 +24,7 @@
 \*/
 
 #include <stdio.h>
+#include <stdlib.h> // for exit, ... in unix
 #include "imageloader.h"
 #include "Terrain.h"
 

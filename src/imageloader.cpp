@@ -25,6 +25,7 @@
 #include <assert.h>
 #include <fstream>
 #include <iostream>
+#include <stdlib.h> // for exit, ... in unix
 #include "lodepng/lodepng.h"
 #include "imageloader.h"
 

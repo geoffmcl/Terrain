@@ -2,6 +2,7 @@
     from : http://stackoverflow.com/questions/5988686/creating-a-3d-sphere-in-opengl-using-visual-c
 \*/
 
+#include <stdio.h> // for pinrtf,... in unix
 #include <vector>
 #include <math.h>
 #ifdef WIN32
@@ -119,7 +120,7 @@ void display_sphere()
 
 }
 
-
+#if 0 // TODO: Fix this vec3 class 000000000000000000000000000
 class vec3 
 {
 public:
@@ -175,6 +176,7 @@ void createSphere(std::vector<vec3>& vertices,
         }
     }
 }
+#endif // TODO: 00000000000000000000
 
 void createSphere2(
     std::vector<GLfloat> &vertices,

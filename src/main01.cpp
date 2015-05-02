@@ -26,10 +26,23 @@
 #else
 #include <GL/glut.h>
 #endif
+#ifndef WIN32
+#include <string.h> // for strcmp,...
+#endif
 #include "Terrain.h"
 #include "imageloader.h"
 #include "vec3f.h"
-
+#ifndef WIN32
+#ifndef TRUE
+#define TRUE 1
+#endif
+#ifndef FALSE
+#define FALSE 0
+#endif
+#ifndef BOOL
+typedef int BOOL;
+#endif
+#endif
 using namespace std;
 
 static const char *module = "main01";

@@ -28,6 +28,8 @@
 #ifdef _WIN32
 #include <Windows.h>
 #include <WinUser.h>
+#else
+#include <string.h> // for strcmp,...
 #endif
 #include <GL/glut.h>
 #endif
@@ -37,7 +39,19 @@
 #include "Terrain.h"
 #include "imageloader.h"
 #include "vec3f.h"
+#ifdef WIN32
 #include "resource.h"
+#else
+#ifndef TRUE
+#define TRUE 1
+#endif
+#ifndef FALSE
+#define FALSE 0
+#endif
+#ifndef BOOL
+typedef int BOOL;
+#endif
+#endif
 
 using namespace std;
 

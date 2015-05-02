@@ -18,4 +18,14 @@ sphere6
 terrain
 terrain01
 zprdemo
-
+*.vcxproj
+*.filters
+Debug/*
+*.dir/*
+Release/*
+Win32/*
+*.sln
+*.user
+ipch/*
+*.opensdf
+*.sdf

@@ -338,7 +338,7 @@ static const char *hmf = DEF_HEIGHTMAP;
 
 void give_help(char *name)
 {
-    printf("%s [options] [in_heightmap]\n");
+    printf("%s [options] [in_heightmap]\n", module);
     printf("options:\n");
     printf(" --help (-h or -?) = This help and exit 2\n");
     printf("\n");

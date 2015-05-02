@@ -16,6 +16,8 @@
 #include <time.h>
 #ifdef WIN32
 #include <windows.h>    // needed for some defines ONLY
+#else
+#include <string.h> // for strcmp,...
 #endif
 #include <GL/glut.h>
 #include "texLoad.h"

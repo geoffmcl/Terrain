@@ -4,9 +4,9 @@ BN=`basename $0`
 TMPPRJ="terrain"
 TMPLOG="bldlog-1.txt"
 TMPOPTS=""
-# Possible options to help with problems
 TMPOPTS="-DCMAKE_INSTALL_PREFIX=$HOME"
-TMPOPTS="$TMPOPTS -DCMAKE_VERBOSE_MAKEFILE=ON"
+# Possible options to help with problems
+# TMPOPTS="$TMPOPTS -DCMAKE_VERBOSE_MAKEFILE=ON"
 
 for arg in $@; do
 	TMPOPTS="$TMPOPTS $arg"
@@ -38,7 +38,7 @@ fi
 
 echo "Appears a successful build..."
 echo ""
-echo "Perhaps follow with 'make install', to install to $HONE/bin unless changed..."
+echo "Perhaps follow with 'make install', to install to $HOME/bin unless changed..."
 echo ""
 
 # eof

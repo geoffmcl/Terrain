@@ -1,1 +1,17 @@
 bldlog-1.txt
+cube
+cube2
+libgenutils.a
+libgltzpr.a
+libterrutils.a
+Lighthouse3D
+sphere1
+sphere2
+sphere3
+sphere4
+sphere5
+sphere6
+terrain
+terrain01
+zprdemo
+

@@ -273,6 +273,30 @@ endif ()
 # deal with install, if any...
 #install( TARGETS ${name} DESTINATION bin )
 
+### Similar, but Windows ONLY, uses Terrain.raw
+### Nice blue terrain
+if (WIN32)
+    set(DEF_BMP "${CMAKE_SOURCE_DIR}/data/Terrain.raw")
+    if(EXISTS ${DEF_BMP})
+        add_definitions( -DDEF_TERRAIN_RAW="${DEF_BMP}" )
+        message(STATUS "*** add_definitions( -DDEF_TERRAIN_RAW=\"${DEF_BMP}\"" )
+    endif ()
+    set(name terrain2)
+    set(dir src)
+    set(${name}_SRCS
+        ${dir}/Terrain2.cpp
+        )
+    add_executable( ${name} WIN32 ${${name}_SRCS} )
+    if (add_LIBS)
+        target_link_libraries( ${name} ${add_LIBS} )
+    endif ()
+    if (MSVC)
+        set_target_properties( ${name} PROPERTIES DEBUG_POSTFIX d )
+    endif ()
+    # deal with install, if any...
+    #install( TARGETS ${name} DESTINATION bin )
+endif ()
+
 #########################################
 ##### This is a GOOD 'flat' version #####
 #########################################

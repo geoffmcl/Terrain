@@ -1,4 +1,4 @@
-# Terrain Project - 20150502 - 20150406
+# Terrain Project - 20150502
 
 I was looking for examples of overlaying a heightmap with a texture, and 
 found this tutorial - http://www.videotutorialsrock.com/opengl_tutorial/terrain/text.php -
@@ -78,12 +78,12 @@ It comes with a zprdemo, which in Windows, sets the windows ICON loaded through 
 
 ##### genutils:
 
- 1. dir_utils.[cxx|hxx] - std::vector<std::string> read_directory( std::string dir, std::string mask, int mode, bool verb ) - returns the set of files in the directory, using the mask.
+ 1. dir_utils.[cxx|hxx] - `std::vector<std::string> read_directory( std::string dir, std::string mask, int mode, bool verb )` - returns the set of files in the directory, using the mask.
  2. slippystuff.[cxx|hxx] - Some utilities for getting the slippy tile name from lat, lon, zoom - http://wiki.openstreetmap.org/wiki/Slippy_map_tilenames
  3. sprtf.[cxx|hxx] - A 'printf' functions that also writes to a log file.
  4. utils.[cxx|hxx] - A mish-mash of utility functions.
  
-At present no apps in this collect use any of these utilities, but that could change!
+At present no apps in this collect use any of these general utilities, but that could change!
  
 ### Building:
 
@@ -101,11 +101,15 @@ This uses the CMake build file generator, so for building, it should be just -
  2. cmake ..
  3. cmake --build . --config Release
 
-The 'build' folder contains perhaps a helpful 'build-me.bat' file, which demostrates how to add paths to assist cmake find the install location of the various 3rdParty library, particularly GLUT/OpenGLUT.
+The **build** folder contains perhaps a helpful `build-me.bat` file, which demostrates how to add paths to assist cmake find the install location of the various 3rdParty library, particularly GLUT/OpenGLUT. And also a `build-me.sh` script for unix/linux.
 
-And if MSVC supports a 64-bit build, there is also a build.x64 folder, again with a build-me.bat file showing the extra setup required to establish the 64-bit environment.
+And if MSVC supports a 64-bit build, there is also a **build.x64** folder, again with a `build-me.bat` file showing the extra setup required to establish the 64-bit environment. May need adjustment to suit your MSVC install location.
  
-Of course the CMake GUI app can also be used.
+Of course the CMake GUI app can also be used. Set the source to the source root, and the binary directory to the build folder. Click `[Configure]`, choose a `generator`. This may need to be repeated until error items cleared, before writing the build files.
+
+And of course the MSVC IDE can be used to loaded the terrain.sln file, if that is the generator chosen.
+
+Have FUN ;=))
 
 Geoff.   
 20150502 - 20150406

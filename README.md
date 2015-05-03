@@ -1,19 +1,37 @@
-# Terrain Project - 20150502
+# Terrain Project - 20150503
 
-I was looking for examples of overlaying a heightmap with a texture, and 
-found this tutorial - http://www.videotutorialsrock.com/opengl_tutorial/terrain/text.php -
+I was looking for examples of overlaying a heightmap as a texture, and found a few. Most have a prequistite of GLUT/OpenGLUT, and cmake will abort if this is NOT found. The current 'main' example is Terrain2.
+
+##### Terrain2:
+
+Note: Is a Windows only application!
+
+It reads data/Terrain.raw and renders it as a height map. Originally it was just shades of green, but borrowing from some work done on my [Dem Project](https://gitlab.com/fgtools/dem-project) I get the range of elevations to be used, and generate a look up height to color table.
+
+This give it great coloring, but still not happy with the model location in the windows. Added some x,y,z 'arrows' and see that the model is weidly offset from 0,0,0, the center of the universe!
+
+Added some rotations but due to this offset it does not yet rotate as desired. Also has a zoom... and can be run in windows full screeen mode toggled by the F1 key.
+
+
+## Other Example found.
+
+##### terrain:
+
+Found this tutorial - http://www.videotutorialsrock.com/opengl_tutorial/terrain/text.php -
 and its small sample source. There is also a short video.
 
 It uses a heightmap to generate the terrain. It is a very simple GLUT app, thus 
 GLUT/OpenGLUT MUST be found. It uses its own heightmap.bmp, the path to which can 
 be given on the command line.
 
-But the display is only of a 2D model.
+But the display is only of a 2D model in 3D.
 
-## Other Example:
+##### Lighthouse3D:
 
 In searching for other examples, I also found Lighthouse3D, but this is quite simple, 
 and it not really a good example of what I was looking for.
+
+##### ML_Terrain:
 
 And also Multilayered Terrain example, in the ML_Terrain directory. However it is windows 
 only and has a considerable nummber of dependencies... see src\ML_Terrain\README.md 
@@ -23,6 +41,8 @@ standard cmake distribution, or even if they are, do not do exactly what I wante
 
  1. If using MSVC, try to find the 'static' library version first. Avoid DLL location problems for running.
  2. If using MSVC, try to find a Debug AND Release version setting debug;libd.lib;optimized;lib.lib
+ 
+The list of personlised cmake 'find' module is FindASSIMP.cmake, FindFREEIMAGE.cmake, FindGLEW.cmake, FindGLM.cmake, and of course FindGLUT.cmake. Only the latter is required for all examples.
 
 Also a whole series of experiments on generating a cube, and then a sphere...
 
@@ -112,6 +132,6 @@ And of course the MSVC IDE can be used to loaded the terrain.sln file, if that i
 Have FUN ;=))
 
 Geoff.   
-20150502 - 20150406
+20150503 - 20150406
 
 ; eof

@@ -285,6 +285,7 @@ if (WIN32)
     set(dir src)
     set(${name}_SRCS
         ${dir}/Terrain2.cpp
+        ${dir}/Terrain2-scraps.cpp
         )
     add_executable( ${name} WIN32 ${${name}_SRCS} )
     if (add_LIBS)

@@ -1,6 +1,6 @@
 # Terrain Project - 20150503
 
-I was looking for examples of overlaying a heightmap as a texture, and found a few. Most have a prequistite of GLUT/OpenGLUT, and cmake will abort if this is NOT found. The current 'main' example is Terrain2.
+I was looking for examples of overlaying a heightmap as a texture, and found a few. Most have a prerequistite of GLUT/OpenGLUT, and cmake will abort if this is NOT found. The current 'main' example is Terrain2.
 
 ##### Terrain2:
 
@@ -8,12 +8,12 @@ Note: Is a Windows only application!
 
 It reads data/Terrain.raw and renders it as a height map. Originally it was just shades of green, but borrowing from some work done on my [Dem Project](https://gitlab.com/fgtools/dem-project) I get the range of elevations to be used, and generate a look up height to color table.
 
-This give it great coloring, but still not happy with the model location in the windows. Added some x,y,z 'arrows' and see that the model is weidly offset from 0,0,0, the center of the universe!
+This gives it great coloring, but still not happy with the model location in the windows. Added some x,y,z 'arrows' and see that the model is weidly offset from 0,0,0, the center of the universe!
 
 Added some rotations but due to this offset it does not yet rotate as desired. Also has a zoom... and can be run in windows full screeen mode toggled by the F1 key.
 
 
-## Other Example found.
+## Other Examples Found.
 
 ##### terrain:
 

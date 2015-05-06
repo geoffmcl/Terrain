@@ -31,15 +31,15 @@ IF (WIN32)
   
  if (FIND_GLEW64)
     if (MSVC)
-        message(STATUS "== Finding 64-bit MSVC WIN libraries")
+        message(STATUS "== Finding 64-bit MSVC WIN static libraries")
         find_library( GLEW_LIBRARY_DBG
-            NAMES glew64sd glew64d
+            NAMES glew64sd
             PATHS $ENV{PROGRAMFILES}/GLEW/lib
                 ${PROJECT_SOURCE_DIR}/src/nvgl/glew/bin
                 ${PROJECT_SOURCE_DIR}/src/nvgl/glew/lib
             DOC "The GLEW DBG library (64-bit)")
        find_library( GLEW_LIBRARY_REL
-            NAMES glew64s glew64
+            NAMES glew64s
             PATHS $ENV{PROGRAMFILES}/GLEW/lib
                 ${PROJECT_SOURCE_DIR}/src/nvgl/glew/bin
                 ${PROJECT_SOURCE_DIR}/src/nvgl/glew/lib
@@ -48,8 +48,31 @@ IF (WIN32)
             set(GLEW_LIBRARY
                 optimized ${GLEW_LIBRARY_REL}
                 debug ${GLEW_LIBRARY_DBG} )
+            set(GLEW_DEFINITIONS -DGLEW_STATIC)
+            message(STATUS "*** Found glew static. Add GLEW_DEFINITIONS=${GLEW_DEFINITIONS} to compile")
+        elseif (GLEW_LIBRARY_REL)
+            set(GLEW_LIBRARY ${GLEW_LIBRARY_REL})
+            set(GLEW_DEFINITIONS -DGLEW_STATIC)
+            message(STATUS "*** Found glew static. Add GLEW_DEFINITIONS=${GLEW_DEFINITIONS} to compile")
         else ()
-            if (GLEW_LIBRARY_REL)
+            message(STATUS "== Finding 64-bit MSVC WIN DLL libraries")
+            find_library( GLEW_LIBRARY_DBG
+                NAMES glew64d
+                PATHS $ENV{PROGRAMFILES}/GLEW/lib
+                    ${PROJECT_SOURCE_DIR}/src/nvgl/glew/bin
+                    ${PROJECT_SOURCE_DIR}/src/nvgl/glew/lib
+                DOC "The GLEW DBG library (64-bit)")
+           find_library( GLEW_LIBRARY_REL
+                NAMES glew64
+                PATHS $ENV{PROGRAMFILES}/GLEW/lib
+                    ${PROJECT_SOURCE_DIR}/src/nvgl/glew/bin
+                    ${PROJECT_SOURCE_DIR}/src/nvgl/glew/lib
+                DOC "The GLEW REL library (64-bit)")
+            if (GLEW_LIBRARY_DBG AND GLEW_LIBRARY_REL)
+                set(GLEW_LIBRARY
+                    optimized ${GLEW_LIBRARY_REL}
+                    debug ${GLEW_LIBRARY_DBG} )
+            elseif (GLEW_LIBRARY_REL)
                 set(GLEW_LIBRARY ${GLEW_LIBRARY_REL})
             endif ()
         endif ()

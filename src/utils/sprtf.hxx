@@ -48,7 +48,8 @@ extern int add_append_log( int val );
 
 extern int open_log_file( void );
 extern void close_log_file( void );
-extern void set_log_file( char * nf, bool open = true );
+extern void set_log_file( char * nf, int open );
+//extern void set_log_file( char * nf, bool open = true );
 extern char * get_log_file( void );
 
 extern int MCDECL sprtf( const char *pf, ... );

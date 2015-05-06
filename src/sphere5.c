@@ -20,6 +20,7 @@
 #include <string.h> // for strcmp,...
 #endif
 #include <GL/glut.h>
+#include "utils/sprtf.hxx"
 #include "texLoad.h"
 
 #ifdef _MSC_VER
@@ -29,6 +30,8 @@
 #endif
 
 static const char *module = "sphere5";
+
+static const char *def_log = "tempsph5.txt";
 
 #ifndef DEF_EARTH_RAW
 #define DEF_EARTH_RAW "../data/earth.raw"
@@ -92,6 +95,86 @@ const double PI = 3.1415926535897;
 
 VERTICES VERTEX[VertexCount + (space * 4)];
 
+typedef struct tagVEC3 {
+    int x,y,z;
+}VEC3;
+
+#define SETMM {  \
+            if (x > max_v.x) max_v.x = x; \
+            if (y > max_v.y) max_v.y = y; \
+            if (z > max_v.z) max_v.z = z; \
+            if (x < min_v.x) min_v.x = x; \
+            if (y < min_v.y) min_v.y = y; \
+            if (z < min_v.z) min_v.z = z; \
+            if (u > max_du) max_du = u; \
+            if (u < min_du) min_du = u; \
+            if (v > max_dv) max_dv = v; \
+            if (v < min_dv) min_dv = v; \
+}
+
+void out_verts()
+{
+    int b, count = 0;
+    int x,y,z,wrap;
+    double u,v;
+    int val = add_std_out(0);
+    VEC3 min_v = {99999,99999,99999};
+    VEC3 max_v = {-99999,-99999,-99999};
+    double max_du = -99999.0;
+    double min_du =  99999.0;
+    double max_dv = -99999.0;
+    double min_dv =  99999.0;
+
+    SPRTF("%s: List of %d TexCoord and vertex\n", module, VertexCount);
+    wrap = 0;
+    SPRTF("Run 1:\n");
+    for ( b = 0; b <= VertexCount; b++) {
+        x = VERTEX[b].X;
+        y = VERTEX[b].Y;
+        z = -VERTEX[b].Z;
+        u = VERTEX[b].U;
+        v = VERTEX[b].V;
+        SPRTF("Tex(%lf,%lf) Vert(%d,%d,%d) ", u, v, x, y, z );
+        count++;
+        SETMM;
+        wrap++;
+        if (wrap == 3) {
+            SPRTF("\n");
+            wrap = 0;
+        }
+    }
+    if (wrap) {
+        SPRTF("\n");
+    }
+    wrap = 0;
+    SPRTF("Run 2:\n");
+    for ( b = 0; b <= VertexCount; b++) {
+        x = VERTEX[b].X;
+        y = VERTEX[b].Y;
+        z = VERTEX[b].Z;
+        u = VERTEX[b].U;
+        v = -VERTEX[b].V;
+        SPRTF("Tex(%lf,%lf) Vert(%d,%d,%d) ", u, v, x, y, z );
+        count++;
+        SETMM;
+        wrap++;
+        if (wrap == 3) {
+            SPRTF("\n");
+            wrap = 0;
+        }
+    }
+    if (wrap) {
+        SPRTF("\n");
+    }
+    add_std_out(val);
+    SPRTF("vector min (%d,%d,%d) max (%d,%d,%d)\n", min_v.x, min_v.y, min_v.z,
+        max_v.x, max_v.y, max_v.z );
+    SPRTF("center (%d,%d,%d) ", ((min_v.x + max_v.x) / 2), ((min_v.y + max_v.y) / 2), ((min_v.z + max_v.z) / 2) );
+    SPRTF("range (%d,%d,%d)\n", (max_v.x - min_v.x), (max_v.y - min_v.y), (max_v.z - min_v.z) );
+    SPRTF("UV max %lf,%lf min %lf,%lf, range %lf,%lf\n", max_du, max_dv, min_du, min_dv, (max_du - min_du), (max_dv - min_dv));
+    SPRTF("%s: Listed %d pairs (%d)...\n", module, count, (VertexCount + 1) * 2);
+}
+
 void DisplaySphere (double R, GLuint texture)
 {
     int b;
@@ -151,9 +234,10 @@ void CreateSphere (double R, double H, double K, double Z)
             n++;
         }
     }
-    printf("%s: Created sphere R=%lf, H=%lf, K=%lf, Z=%lf", module,
+    SPRTF("%s: Created sphere R=%lf, H=%lf, K=%lf, Z=%lf", module,
         R, H, K, Z );
-    printf(", n=%d, v=%d\n", n, VertexCount);
+    SPRTF(", n=%d, v=%d\n", n, VertexCount);
+    out_verts();
 }
 
 // XYZ position of the camera
@@ -220,7 +304,7 @@ static void MouseMotion(int x, int y)
         if (add_zoom_diags && do_out) {
             if (strcmp(cp,lp)) {
                 strcpy(lp,cp);
-                printf("%s\n",lp);
+                SPRTF("%s\n",lp);
             }
         }
         glutPostRedisplay();
@@ -313,16 +397,16 @@ void reshape (int w, int h)
 
 void keyHelp()
 {
-    printf("Keyboard help...\n");
-    printf(" ESC = Exit\n");
-    printf(" ?   = Show this keyboard help.\n");
-    //printf(" +   = Increase rotation speed\n");
-    //printf(" -   = Decrease rotation speed\n");
-    printf(" x   = Toggle m_xrot motion %s\n", add_roll ? "Off" : "On");
-    printf(" y   = Toggle y_rotate motion %s\n", add_rotate ? "Off" : "On");
-    printf(" z   = Toggle m_zrot motion %s\n", add_z_mot ? "Off" : "On");
-    printf(" f   = Toggle freeze %s.\n", is_frozen ? "Off" : "On");
-    printf(" R   = Reset angles to original values.\n");
+    SPRTF("Keyboard help...\n");
+    SPRTF(" ESC = Exit\n");
+    SPRTF(" ?   = Show this keyboard help.\n");
+    //SPRTF(" +   = Increase rotation speed\n");
+    //SPRTF(" -   = Decrease rotation speed\n");
+    SPRTF(" x   = Toggle m_xrot motion %s\n", add_roll ? "Off" : "On");
+    SPRTF(" y   = Toggle y_rotate motion %s\n", add_rotate ? "Off" : "On");
+    SPRTF(" z   = Toggle m_zrot motion %s\n", add_z_mot ? "Off" : "On");
+    SPRTF(" f   = Toggle freeze %s.\n", is_frozen ? "Off" : "On");
+    SPRTF(" R   = Reset angles to original values.\n");
 }
 
 void keyboard(unsigned char key, int x, int y) 
@@ -379,13 +463,13 @@ char *get_title(void)
 }
 void give_help(void)
 {
-    printf("Usage: %s [options] [texfile]\n", module);
-    printf("Options:\n");
-    printf(" --help (-h or -?) = THis help and exit(2)\n");
-    printf(" If an input texture file is given, it MUST be RAW format,\n");
-    printf(" and exactly 1024 x 512.\n");
-    printf(" If no texFile given will use default '%s'\n", texFile);
-    printf("\n");
+    SPRTF("Usage: %s [options] [texfile]\n", module);
+    SPRTF("Options:\n");
+    SPRTF(" --help (-h or -?) = THis help and exit(2)\n");
+    SPRTF(" If an input texture file is given, it MUST be RAW format,\n");
+    SPRTF(" and exactly 1024 x 512.\n");
+    SPRTF(" If no texFile given will use default '%s'\n", texFile);
+    SPRTF("\n");
 }
 
 int parse_command (int argc, char **argv) 
@@ -408,7 +492,7 @@ int parse_command (int argc, char **argv)
                 break;
             default:
                 give_help();
-                printf("%s: Unknown arg '%s'!\n", module, arg);
+                SPRTF("%s: Unknown arg '%s'!\n", module, arg);
                 return 1;
             }
         } else {
@@ -420,7 +504,10 @@ int parse_command (int argc, char **argv)
 
 int main (int argc, char **argv) 
 {
-    int iret = parse_command(argc,argv);
+    int iret = 0;
+    set_log_file((char *)def_log,0);
+
+    iret = parse_command(argc,argv);
     if (iret) 
         return iret;
     glutInit (&argc, argv);

@@ -944,7 +944,7 @@ int WINAPI WinMain(	HINSTANCE	hInstance,				// Instance
 	}
 
     add_std_out(0); // kill standard out - is a WIN32 app - no console
-    set_log_file((char *)def_log,false);
+    set_log_file((char *)def_log,0);
 
 	// Create Our OpenGL Window
 	if (!CreateGLWindow("NeHe & Ben Humphrey's Height Map Tutorial", 640, 480, 16, fullscreen))

@@ -53,13 +53,13 @@
 
 @set TMPOPTS=-G "%GENERATOR%"
 @set TMPOPTS=%TMPOPTS% -DCMAKE_INSTALL_PREFIX=%TMPINST%
+@set TMPPFP=C:\FG\18\3rdParty.x64
 @if EXIST %TMP3RD%\nul (
-    @set TMPOPTS=%TMPOPTS% -DCMAKE_PREFIX_PATH=%TMP3RD%
+    @set TMPPFP=%TMPPFP%;%TMP3RD%
 ) else (
-    @echo.
-    @echo WARNING: %TMP3RD% not found! So no prefix path
-    @echo.
+    @echo WARNING: %TMP3RD% not found! So not added to prefix path
 )
+@set TMPOPTS=%TMPOPTS% -DCMAKE_PREFIX_PATH=%TMPPFP%
 
 :RPT
 @if "%~1x" == "x" goto GOTCMD

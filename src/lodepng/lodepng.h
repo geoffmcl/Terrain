@@ -883,6 +883,13 @@ unsigned compress(std::vector<unsigned char>& out, const std::vector<unsigned ch
 } /* namespace lodepng */
 #endif /*LODEPNG_COMPILE_CPP*/
 
+
+#ifdef LODEPNG_COMPILE_ALLOCATORS
+extern void* lodepng_malloc(size_t size);
+extern void* lodepng_realloc(void* ptr, size_t new_size);
+extern void lodepng_free(void* ptr);
+#endif
+
 /*
 TODO:
 [.] test if there are no memory leaks or security exploits - done a lot but needs to be checked often

@@ -156,6 +156,19 @@ else ()
     message(STATUS "*** Assimp NOT FOUND!")
 endif ()
 
+#  EASYBMP_FOUND, If false, do not try to use EasyBMP.
+#  EASYBMP_INCLUDE_DIR, where to find EasyBMP.h, etc.
+#  EASYBMP_LIBRARIES, libraries to link against to use EasyBMP.
+find_package(EasyBMP)
+if (EASYBMP_FOUND)
+    message(STATUS "*** EasyBMP found inc ${EASYBMP_INCLUDE_DIR} lib ${EASYBMP_LIBRARIES}")
+    include_directories( ${EASYBMP_INCLUDE_DIR} )
+    list(APPEND add_LIBS ${EASYBMP_LIBRARIES})
+    add_definitions( -DHAVE_EASYBMP=1 )
+else ()
+    message(STATUS "*** EasyBMP NOT FOUND!")
+endif ()
+
 # configuration file, if needed
 # configure_file( ${CMAKE_SOURCE_DIR}/config.h.cmake ${CMAKE_BINARY_DIR}/config.h )
 # add_definitions( -DHAVE_CONFIG_H )
@@ -566,6 +579,22 @@ if(EXISTS ${DEF_BMP})
     message(STATUS "*** add_definitions( -DDEF_EARTH_BMP=\"${DEF_BMP}\"" )
 endif ()
 set(name sphere6)
+set(dir src)
+set(${name}_SRCS
+    ${dir}/${name}.cxx
+    )
+add_executable( ${name} ${${name}_SRCS} )
+if (add_LIBS)
+    target_link_libraries( ${name} ${add_LIBS} )
+endif ()
+if (MSVC)
+    set_target_properties( ${name} PROPERTIES DEBUG_POSTFIX d )
+endif ()
+# deal with install, if any...
+#install( TARGETS ${name} DESTINATION bin )
+
+# 20150507 - Add a PNG dump utility
+set(name png-dump2)
 set(dir src)
 set(${name}_SRCS
     ${dir}/${name}.cxx

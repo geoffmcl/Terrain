@@ -80,7 +80,9 @@ int parse_args( int argc, char **argv )
 #ifdef HAVE_EASYBMP
 static const char *def_bmp = "tempbmp.bmp";
 static bool convert_zero_2_blue = true;
-void write_bmp_file( int width, int height, unsigned char *pixels )
+/////////////////////////////////////////////////////////////////////////////
+// 
+bool write_bmp_file( int width, int height, unsigned char *pixels )
 {
     RGBApixel p;
     BMP *pbmp = new BMP;
@@ -89,6 +91,7 @@ void write_bmp_file( int width, int height, unsigned char *pixels )
     int x,y,off;
     for (y = 0; y < height; y++) {
         for (x = 0; x < width; x++) {
+            // Where to fetch the PIXEL from
             off = ((y * width) + x)  * 4;
             // need to INVERT pixels - NO
             // off = (((height - y - 1) * width) + x) * 4;
@@ -109,16 +112,18 @@ void write_bmp_file( int width, int height, unsigned char *pixels )
                     }
                 }
             }
-            //pbmp->SetPixel(y,x,p);    // Oops, seem that should be col,row,pixel
+            // BAD! pbmp->SetPixel(y,x,p); // Oops, seem that should be (col,row,pixel)
             pbmp->SetPixel(x,y,p);
         }
     }
-    if (pbmp->WriteToFile(def_bmp)) {
+    bool bret = pbmp->WriteToFile(def_bmp);
+    if (bret) {
         SPRTF("%s: Written BMP file '%s'\n", module, def_bmp);
     } else {
         SPRTF("%s: Write of BMP file '%s' FAILED!\n", module, def_bmp);
     }
     delete pbmp;
+    return bret;
 }
 #endif // HAVE_EASYBMP
 

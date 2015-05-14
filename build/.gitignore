@@ -31,3 +31,7 @@ ipch/*
 *.sdf
 x64/*
 *.suo
+libEasyBMP.a
+png-dump2
+src/*
+

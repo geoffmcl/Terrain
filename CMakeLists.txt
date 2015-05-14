@@ -166,7 +166,25 @@ if (EASYBMP_FOUND)
     list(APPEND add_LIBS ${EASYBMP_LIBRARIES})
     add_definitions( -DHAVE_EASYBMP=1 )
 else ()
-    message(STATUS "*** EasyBMP NOT FOUND!")
+    message(STATUS "*** External EasyBMP NOT FOUND! Using local")
+    set(name EasyBMP)
+    set(dir src/EasyBMP)
+    include_directories( ${dir} )
+    set(${name}_SRCS
+        ${dir}/EasyBMP.cpp
+        )
+    set(${name}_HDRS
+        ${dir}/EasyBMP.h
+        ${dir}/EasyBMP_BMP.h
+        ${dir}/EasyBMP_DataStructures.h
+        ${dir}/EasyBMP_VariousBMPutilities.h
+        )
+    add_library( ${name} ${LIB_TYPE} ${${name}_SRCS} ${${name}_HDRS} )
+    list(APPEND add_LIBS ${name})
+    # this did not work ??? should have   
+    # add_subdirectory( src/EasyBMP )
+    add_definitions( -DHAVE_EASYBMP=1 )
+    ### message(STATUS "*** Added lib add_LIBS=${add_LIBS}")
 endif ()
 
 # configuration file, if needed

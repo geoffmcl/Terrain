@@ -23,15 +23,32 @@ static bool add_test = false;
 static bool add_test = true;
 #endif
 static bool show_raw_data = false;
+static bool write_bmp = false;
+static const char *def_bmp = "tempbmp.bmp";
+static bool convert_zero_2_blue = false;
+static bool add_alpha = false;
 
 static const char *test_file = "Z:\\dem3\\build\\hmn37w123.png";
 static const char *def_log = "temppngd2.txt";
 
 void give_help( char *name )
 {
+    printf("\n");
     printf("%s: usage: [options] usr_input\n", module);
+    printf("\n");
     printf("Options:\n");
     printf(" --help  (-h or -?) = This help and exit(2)\n");
+    printf(" --raw         (-r) = Each color pixel will be shown.\n");
+    printf(" --alpha       (-a) = Include the alpha channel. Implies -r\n");
+#ifdef HAVE_EASYBMP
+    printf(" --bmp file    (-b) = Write out to a 24-but bitmap file.\n");
+    printf(" --zero2blue   (-z) = Convert any 0 color to blue in bmp output.\n");
+#endif
+    printf("\n");
+    printf(" The usr_input file will be treated as a png file, decoded,\n");
+    printf(" and a dump of the information, and pixel colors done if -r/-a.\n");
+    printf("\n");
+
     // TODO: More help
 }
 
@@ -53,6 +70,29 @@ int parse_args( int argc, char **argv )
                 give_help(argv[0]);
                 return 2;
                 break;
+#ifdef HAVE_EASYBMP
+            case 'b':
+                if (i2 < argc) {
+                    i++;
+                    sarg = argv[i];
+                    def_bmp = strdup(sarg);
+                    write_bmp = true;
+                } else {
+                    printf("%s: Expected output bmp file name to follow '%s'\n", module, arg);
+                    return 1;
+                }
+                break;
+            case 'z':
+                convert_zero_2_blue = true;
+                break;
+#endif
+            case 'a':
+                add_alpha = true;
+                // note fall through to -r implied
+            case 'r':
+                show_raw_data = true;
+                break;
+
             // TODO: Other arguments
             default:
                 printf("%s: Unknown argument '%s'. Tyr -? for help...\n", module, arg);
@@ -78,8 +118,6 @@ int parse_args( int argc, char **argv )
 }
 
 #ifdef HAVE_EASYBMP
-static const char *def_bmp = "tempbmp.bmp";
-static bool convert_zero_2_blue = true;
 /////////////////////////////////////////////////////////////////////////////
 // 
 bool write_bmp_file( int width, int height, unsigned char *pixels )
@@ -128,7 +166,6 @@ bool write_bmp_file( int width, int height, unsigned char *pixels )
 #endif // HAVE_EASYBMP
 
 
-static bool add_alpha = false;
 int dump_png_input()
 {
     int iret = 0;
@@ -199,7 +236,9 @@ int dump_png_input()
         add_std_out(val);
     }
 #ifdef HAVE_EASYBMP
-    write_bmp_file( width, height, pixels );
+    if (write_bmp) {
+        write_bmp_file( width, height, pixels );
+    }
 #endif // HAVE_EASYBMP
 exit:
     if (out)
